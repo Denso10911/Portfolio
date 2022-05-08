@@ -1,17 +1,23 @@
 import Link from "next/link";
 import styled from "styled-components";
+import Head from "next/head";
 
 export default function Home() {
   return (
-    <Wrapper>
-      <Title>
-        Hi, I'm <TitleFocus>Denys</TitleFocus> <br />
-        I'm a front-end developer
-      </Title>
-      <Link href='/projects'>
-        <Btn>View my works</Btn>
-      </Link>
-    </Wrapper>
+    <>
+      <Head>
+        <title>Home | Next JS</title>
+      </Head>
+      <Wrapper>
+        <Title>
+          Hi, I'm <TitleFocus>Denys</TitleFocus> <br />
+          I'm a front-end developer
+        </Title>
+        <Link href='/projects'>
+          <Btn>View my works</Btn>
+        </Link>
+      </Wrapper>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 import Image from "next/image";
+import Head from "next/head";
 
 import {
   MdSpeed,
@@ -41,51 +42,56 @@ export default function About() {
   ];
 
   return (
-    <Wrapper>
-      <TitleAbout>About me</TitleAbout>
-      <Container>
-        <PriorityList>
-          {priority.map((item, index) => {
-            return (
-              <PriorityItem key={index}>
-                <PriorityIcon>{item.icon}</PriorityIcon>
-                <PriorityTitle>{item.title}</PriorityTitle>
-                <PriorityParagraph>{item.text}</PriorityParagraph>
-              </PriorityItem>
-            );
-          })}
-        </PriorityList>
-        <MyBiography>
-          <MyPhoto>
-            <Image
-              src='/me.jpg'
-              alt='Picture of the author'
-              layout='fill'
-              priority='true'
-            />
-          </MyPhoto>
-          <AboutMe>
-            I'm a Front-End Developer from Kyiv, Ukraine. I have serious passion
-            for UI effects, animations and creating intuitive, dynamic user
-            experiences.
-            <Link href='/'>
-              <a>Let's make something special.</a>
-            </Link>
-          </AboutMe>
-        </MyBiography>
-        <MySkills>
-          {skills.map((item, index) => {
-            return (
-              <Skill key={index}>
-                <SkillName>{item.skill}</SkillName>
-                <SkillScale point={item.point}></SkillScale>
-                <SkillPoint>{`${item.point} %`}</SkillPoint>
-              </Skill>
-            );
-          })}
-        </MySkills>
-      </Container>
-    </Wrapper>
+    <>
+      <Head>
+        <title>About | Next JS</title>
+      </Head>
+      <Wrapper>
+        <TitleAbout>About me</TitleAbout>
+        <Container>
+          <PriorityList>
+            {priority.map((item, index) => {
+              return (
+                <PriorityItem key={index}>
+                  <PriorityIcon>{item.icon}</PriorityIcon>
+                  <PriorityTitle>{item.title}</PriorityTitle>
+                  <PriorityParagraph>{item.text}</PriorityParagraph>
+                </PriorityItem>
+              );
+            })}
+          </PriorityList>
+          <MyBiography>
+            <MyPhoto>
+              <Image
+                src='/me.jpg'
+                alt='Picture of the author'
+                layout='fill'
+                priority='true'
+              />
+            </MyPhoto>
+            <AboutMe>
+              I'm a Front-End Developer from Kyiv, Ukraine. I have serious
+              passion for UI effects, animations and creating intuitive, dynamic
+              user experiences.
+              <Link href='/'>
+                <a>Let's make something special.</a>
+              </Link>
+            </AboutMe>
+          </MyBiography>
+          <MySkills>
+            {skills.map((item, index) => {
+              return (
+                <Skill key={index}>
+                  <SkillName>{item.skill}</SkillName>
+                  <SkillScale point={item.point}></SkillScale>
+                  <SkillPoint>{`${item.point} %`}</SkillPoint>
+                </Skill>
+              );
+            })}
+          </MySkills>
+        </Container>
+      </Wrapper>
+    </>
   );
 }
 const SkillScale = styled.div`
