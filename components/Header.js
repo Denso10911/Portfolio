@@ -2,6 +2,7 @@ import { FiFacebook, FiGithub, FiLinkedin } from "react-icons/fi";
 import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import { motion } from "framer-motion";
 
 export default function Header() {
   const router = useRouter();
@@ -20,61 +21,96 @@ export default function Header() {
     },
   ];
 
+  const navigation = [
+    { link: "/", title: "Home" },
+    { link: "/about", title: "About" },
+    { link: "/projects", title: "Projects" },
+  ];
+
+  const variants = {
+    hidden: { y: -100 },
+    visible: { y: 0 },
+  };
   return (
-    <HeaderTopLine>
+    <HeaderTopLine
+      route={router.pathname}
+      initial='hidden'
+      animate='visible'
+      variants={variants}
+    >
       <List>
         {social.map((item, index) => {
           return (
             <Item key={index}>
-              <a href={item.link} target='_blank'>
+              <ItemLink
+                href={item.link}
+                target='_blank'
+                route={router.pathname}
+              >
                 {item.icon}
-              </a>
+              </ItemLink>
             </Item>
           );
         })}
       </List>
-      <nav>
-        <List>
-          <Item>
-            <Link href={"/"}>
-              <a className={router.asPath === "/" ? "active" : ""}>Home</a>
-            </Link>
-          </Item>
-          <Item>
-            <Link href={"/about"}>
-              <a className={router.asPath === "/about" ? "active" : ""}>
-                About
-              </a>
-            </Link>
-          </Item>
-          <Item>
-            <Link href={"/projects"}>
-              <a className={router.asPath === "/projects" ? "active" : ""}>
-                Projects
-              </a>
-            </Link>
-          </Item>
-        </List>
-      </nav>
+      <List>
+        {navigation.map((item, index) => {
+          return (
+            <Item key={index} route={router.pathname}>
+              <Link href={`${item.link}`}>
+                <ItemLink
+                  className={router.asPath === `${item.link}` ? "active" : ""}
+                  route={router.pathname}
+                >
+                  {item.title}
+                </ItemLink>
+              </Link>
+            </Item>
+          );
+        })}
+      </List>
     </HeaderTopLine>
   );
 }
 
-const HeaderTopLine = styled.header`
+const mainColor = "rgb(60, 1, 107)";
+
+const HeaderTopLine = styled(motion.header)`
   display: flex;
   justify-content: space-between;
   font-size: 30px;
-  width: 80%;
+  width: 100%;
+  height: 55px;
   margin: 0 auto;
-  padding: 0 30px;
-  position: relative;
+  padding: 0 60px;
+  position: absolute;
+  background-color: ${(props) => {
+    switch (props.route) {
+      case "/projects/DoIt":
+        return "inherit";
+      case "/projects/GetWeather":
+        return "black";
+      default:
+        return "white";
+    }
+  }};
   :before {
     content: "";
     position: absolute;
-    width: 100%;
-    border: 1px solid rgb(60, 1, 107);
-    bottom: 0;
-    left: 0;
+    width: 90%;
+    border: 1px solid
+      ${(props) => {
+        switch (props.route) {
+          case "/projects/DoIt":
+            return "#009688;";
+          case "/projects/GetWeather":
+            return "white";
+          default:
+            return mainColor;
+        }
+      }};
+    bottom: -10px;
+    left: calc((100% - 90%) / 2);
   }
 `;
 
@@ -89,29 +125,41 @@ const List = styled.ul`
   padding: 10px 0 0;
 `;
 
+const ItemLink = styled.a`
+  color: ${(props) => {
+    switch (props.route) {
+      case "/projects/DoIt":
+        return "#009688;";
+      case "/projects/GetWeather":
+        return "white";
+      default:
+        return mainColor;
+    }
+  }};
+`;
+
 const Item = styled.li`
+  display: flex;
+  align-items: center;
   a {
     display: block;
     padding-bottom: 5px;
     position: relative;
+    font-size: 30px;
+    line-height: 30px;
     transition: all 0.3s ease;
-    :before {
-      content: "";
-      display: block;
-      width: 100%;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 2px;
-      opacity: 0;
-      border: 1px solid white;
-      transition: all 0.3s ease;
-    }
     :hover {
-      text-shadow: 0 0 3px rgb(44, 1, 79);
-      :before {
-        opacity: 1;
-      }
+      text-shadow: 0 0 3px
+        ${(props) => {
+          switch (props.route) {
+            case "/projects/DoIt":
+              return "#009688;";
+            case "/projects/GetWeather":
+              return "white";
+            default:
+              return "rgb(44, 1, 79)";
+          }
+        }};
     }
   }
 `;

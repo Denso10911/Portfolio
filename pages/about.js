@@ -2,13 +2,42 @@ import Link from "next/link";
 import styled from "styled-components";
 import Image from "next/image";
 import Head from "next/head";
-
+import { motion } from "framer-motion";
 import {
   MdSpeed,
   MdDevicesOther,
   MdLightbulbOutline,
   MdOutlineFastForward,
 } from "react-icons/md";
+
+const titleVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+  },
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const childrenVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
 
 export default function About() {
   const priority = [
@@ -42,26 +71,28 @@ export default function About() {
   ];
 
   return (
-    <>
+    <motion.div exit={{ opacity: 0 }}>
       <Head>
         <title>About | Next JS</title>
       </Head>
       <Wrapper>
         <TitleAbout>About me</TitleAbout>
         <Container>
-          <PriorityList>
+          <PriorityList variants={childrenVariants}>
             {priority.map((item, index) => {
               return (
-                <PriorityItem key={index}>
+                <PriorityItem key={index} variants={childrenVariants}>
                   <PriorityIcon>{item.icon}</PriorityIcon>
                   <PriorityTitle>{item.title}</PriorityTitle>
-                  <PriorityParagraph>{item.text}</PriorityParagraph>
+                  <PriorityParagraph variants={childrenVariants}>
+                    {item.text}
+                  </PriorityParagraph>
                 </PriorityItem>
               );
             })}
           </PriorityList>
-          <MyBiography>
-            <MyPhoto>
+          <MyBiography variants={childrenVariants}>
+            <MyPhoto variants={childrenVariants}>
               <Image
                 src='/me.jpg'
                 alt='Picture of the author'
@@ -69,7 +100,7 @@ export default function About() {
                 priority='true'
               />
             </MyPhoto>
-            <AboutMe>
+            <AboutMe variants={childrenVariants}>
               I'm a Front-End Developer from Kyiv, Ukraine. I have serious
               passion for UI effects, animations and creating intuitive, dynamic
               user experiences.
@@ -78,12 +109,24 @@ export default function About() {
               </Link>
             </AboutMe>
           </MyBiography>
-          <MySkills>
+          <MySkills
+            variants={childrenVariants}
+            transition={{
+              duration: 12,
+            }}
+          >
             {skills.map((item, index) => {
               return (
-                <Skill key={index}>
+                <Skill key={index} variants={childrenVariants}>
                   <SkillName>{item.skill}</SkillName>
-                  <SkillScale point={item.point}></SkillScale>
+                  <SkillScale
+                    point={item.point}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${item.point}%` }}
+                    transition={{
+                      duration: 2,
+                    }}
+                  ></SkillScale>
                   <SkillPoint>{`${item.point} %`}</SkillPoint>
                 </Skill>
               );
@@ -91,11 +134,11 @@ export default function About() {
           </MySkills>
         </Container>
       </Wrapper>
-    </>
+    </motion.div>
   );
 }
-const SkillScale = styled.div`
-  width: ${(props) => `${props.point}%` || "100px"};
+const SkillScale = styled(motion.div)`
+  /* width: ${(props) => `${props.point}%` || "100px"}; */
   background-color: rgb(216, 185, 242);
   height: 30px;
 `;
@@ -110,7 +153,7 @@ const SkillName = styled.div`
   background-color: rgb(175, 113, 226);
 `;
 
-const Skill = styled.div`
+const Skill = styled(motion.div)`
   display: grid;
   grid-template-columns: 100px 400px 100px;
   justify-content: center;
@@ -119,7 +162,7 @@ const Skill = styled.div`
   line-height: 30px;
 `;
 
-const MySkills = styled.div`
+const MySkills = styled(motion.div)`
   display: grid;
   align-items: center;
   grid-area: c;
@@ -129,15 +172,15 @@ const MySkills = styled.div`
   margin-bottom: 80px;
 `;
 
-const Wrapper = styled.main`
-  height: calc(100vh - 65px);
+const Wrapper = styled(motion.main)`
   display: flex;
   align-items: center;
   flex-direction: column;
   padding-bottom: 80px;
+  padding-top: 55px;
 `;
 
-const TitleAbout = styled.h1`
+const TitleAbout = styled(motion.h1)`
   font-size: 40px;
   margin-bottom: 50px;
 `;
@@ -150,7 +193,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const PriorityList = styled.ul`
+const PriorityList = styled(motion.ul)`
   display: grid;
   grid-area: a;
   grid-template-columns: repeat(4, 1fr);
@@ -169,7 +212,7 @@ const PriorityList = styled.ul`
   }
 `;
 
-const PriorityItem = styled.li`
+const PriorityItem = styled(motion.li)`
   display: grid;
   text-align: center;
 `;
@@ -196,25 +239,26 @@ const PriorityTitle = styled.h3`
   padding: 0;
 `;
 
-const PriorityParagraph = styled.p`
+const PriorityParagraph = styled(motion.p)`
   padding: 0px 5px;
 `;
 
-const MyBiography = styled.div`
+const MyBiography = styled(motion.div)`
   display: grid;
   justify-items: center;
   text-align: center;
   grid-area: b;
 `;
 
-const MyPhoto = styled.div`
+const MyPhoto = styled(motion.div)`
   width: 240px;
   height: 300px;
   position: relative;
   box-sizing: border-box;
+  margin-bottom: 25px;
 `;
 
-const AboutMe = styled.p`
+const AboutMe = styled(motion.p)`
   text-align: center;
   width: 80%;
   margin: 0 auto;

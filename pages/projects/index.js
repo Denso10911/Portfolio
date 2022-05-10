@@ -3,6 +3,37 @@ import styled from "styled-components";
 import Image from "next/image";
 import Head from "next/head";
 
+import { motion } from "framer-motion";
+
+const titleVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+  },
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const childrenVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
 export default function Projects() {
   const projects = [
     {
@@ -22,9 +53,11 @@ export default function Projects() {
       <Head>
         <title>Projects | Next JS</title>
       </Head>
-      <Wrapper>
-        <TitleAbout>My projects</TitleAbout>
-        <ProjectsList>
+      <Wrapper initial='hidden' animate='visible' variants={containerVariants}>
+        <TitleAbout initial='hidden' animate='visible' variants={titleVariants}>
+          My projects
+        </TitleAbout>
+        <ProjectsList variants={childrenVariants}>
           {projects.map((item, index) => {
             return (
               <ProjectsItem key={index}>
@@ -121,20 +154,21 @@ const ProjectsItem = styled.li`
   }
 `;
 
-const ProjectsList = styled.ul`
+const ProjectsList = styled(motion.ul)`
   display: flex;
   gap: 10px;
 `;
 
-const Wrapper = styled.main`
-  height: calc(100vh - 65px);
+const Wrapper = styled(motion.main)`
+  height: calc(100vh - 75px);
   display: flex;
   align-items: center;
   flex-direction: column;
   padding-bottom: 80px;
+  padding-top: 55px;
 `;
 
-const TitleAbout = styled.h1`
+const TitleAbout = styled(motion.h1)`
   font-size: 40px;
   margin-bottom: 50px;
 `;

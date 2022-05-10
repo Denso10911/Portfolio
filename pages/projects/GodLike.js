@@ -14,6 +14,7 @@ const Wrapper = styled.main`
   align-items: center;
   flex-direction: column;
   padding-bottom: 80px;
+  padding-top: 55px;
 `;
 
 const TitleAbout = styled.h1`
