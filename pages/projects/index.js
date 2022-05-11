@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Image from "next/image";
 import Head from "next/head";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 const titleVariants = {
   hidden: { opacity: 0 },
@@ -34,19 +35,21 @@ const childrenVariants = {
   },
 };
 
+const projects = [
+  {
+    name: "DoIt",
+    description: "A simple application for your to-do list",
+    technologies: "React Js",
+  },
+  {
+    name: "GetWeather",
+    description: "Minimalistic website for weather control",
+    technologies: "React Js",
+  },
+];
+
 export default function Projects() {
-  const projects = [
-    {
-      name: "DoIt",
-      description: "A simple application for your to-do list",
-      technologies: "React Js",
-    },
-    {
-      name: "GetWeather",
-      description: "Minimalistic website for weather control",
-      technologies: "React Js",
-    },
-  ];
+  const [selectedProj, setSelectedProj] = useState(projects[0]);
 
   return (
     <>
@@ -54,109 +57,54 @@ export default function Projects() {
         <title>Projects | Next JS</title>
       </Head>
       <Wrapper initial='hidden' animate='visible' variants={containerVariants}>
-        <TitleAbout initial='hidden' animate='visible' variants={titleVariants}>
-          My projects
-        </TitleAbout>
-        <ProjectsList variants={childrenVariants}>
-          {projects.map((item, index) => {
-            return (
-              <ProjectsItem key={index}>
-                <Image
-                  src={`/${item.name}.png`}
-                  alt='Picture of the author'
-                  layout='fill'
-                  priority='true'
-                  objectFit='cover'
-                />
-                <ProjectsLearnMore>
-                  <ProjectName>{item.name}</ProjectName>
-                  <ProjectDescr>{item.description}</ProjectDescr>
-                  <ProjectTechno>{item.technologies}</ProjectTechno>
-                  <Link href={`/projects/${item.name}`}>
-                    <Btn>Learn more</Btn>
-                  </Link>
-                </ProjectsLearnMore>
-              </ProjectsItem>
-            );
-          })}
-        </ProjectsList>
+        <Title variants={titleVariants}>My projects</Title>
+        <List>
+          {projects.map((item, index) => (
+            <Item
+              key={index}
+              className={item === selectedProj ? "selected" : ""}
+              onClick={() => setSelectedProj(item)}
+            >
+              {`${item.name}`}
+              {item === selectedProj ? (
+                <motion.div className='underline' layoutId='underline' />
+              ) : null}
+            </Item>
+          ))}
+        </List>
+        <main>
+          <motion.div
+            key={selectedProj ? selectedProj.name : "empty"}
+            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.15 }}
+          >
+            {selectedProj ? selectedProj.description : "😋"}
+          </motion.div>
+        </main>
       </Wrapper>
     </>
   );
 }
-
-const ProjectTechno = styled.h3`
-  text-align: center;
-  font-size: 20px;
-`;
-
-const ProjectDescr = styled.p`
-  text-align: center;
-  font-size: 20px;
-  margin: 0;
-`;
-
-const ProjectName = styled.h2`
-  text-align: center;
-  font-size: 30px;
-  padding-bottom: 20px;
+const Item = styled.li`
   position: relative;
-  width: 100%;
-  margin: 0;
-  :before {
-    content: "";
-    display: block;
+  .underline {
     position: absolute;
-    border: 1px solid rgb(60, 1, 107);
-    width: 80%;
-    margin-left: calc((100% - 80%) / 2);
-    bottom: 0;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: black;
   }
 `;
 
-const Btn = styled.a`
-  display: block;
-  width: 200px;
-  height: 50px;
-  border: 2px solid rgb(60, 1, 107);
-  text-align: center;
-  font-size: 20px;
-  line-height: 40px;
-  color: rgb(60, 1, 107);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  :hover {
-    color: white;
-    background-color: rgb(60, 1, 107);
-  }
-`;
-const ProjectsLearnMore = styled.div`
-  display: none;
-  opacity: 0;
-  background-color: white;
-  width: 100%;
-  height: 100%;
-`;
-const ProjectsItem = styled.li`
-  position: relative;
-  width: 400px;
-  height: 400px;
-  :hover div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 5px;
-    opacity: 1;
-  }
-  :hover > span {
-    display: none !important;
-  }
-`;
-
-const ProjectsList = styled(motion.ul)`
+const List = styled(motion.ul)`
   display: flex;
-  gap: 10px;
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
 `;
 
 const Wrapper = styled(motion.main)`
@@ -165,10 +113,10 @@ const Wrapper = styled(motion.main)`
   align-items: center;
   flex-direction: column;
   padding-bottom: 80px;
-  padding-top: 55px;
+  padding-top: 65px;
 `;
 
-const TitleAbout = styled(motion.h1)`
+const Title = styled(motion.h1)`
   font-size: 40px;
-  margin-bottom: 50px;
+  margin: 40px;
 `;

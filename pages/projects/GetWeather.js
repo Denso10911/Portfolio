@@ -10,16 +10,15 @@ import { TiWeatherWindyCloudy } from "react-icons/ti";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+const modules = [
+  { name: "React.js", icon: <FaReact /> },
+  { name: "React Router Dom", icon: <SiReactrouter /> },
+  { name: "Framer Motion", icon: <FiFramer /> },
+  { name: "Axios", icon: <CgArrowsExchange /> },
+  { name: "Formik", icon: <MdOutlineFormatListBulleted /> },
+  { name: "Font Awesome", icon: <SiFontawesome /> },
+];
 export default function GetWeather() {
-  const modules = [
-    { name: "React.js", icon: <FaReact /> },
-    { name: "React Router Dom", icon: <SiReactrouter /> },
-    { name: "Framer Motion", icon: <FiFramer /> },
-    { name: "Axios", icon: <CgArrowsExchange /> },
-    { name: "Formik", icon: <MdOutlineFormatListBulleted /> },
-    { name: "Font Awesome", icon: <SiFontawesome /> },
-  ];
-
   return (
     <>
       <Head>

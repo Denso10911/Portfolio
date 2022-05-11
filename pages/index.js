@@ -3,69 +3,77 @@ import styled from "styled-components";
 import Head from "next/head";
 import { motion } from "framer-motion";
 
-const variants = {
-  hidden: { opacity: 0, x: 100 },
+const containerVariants = {
+  hidden: {},
   visible: {
-    opacity: 1,
-    x: 0,
     transition: {
-      staggerChildren: 0.5,
-      type: "linear",
+      staggerChildren: 0.4,
     },
   },
   exit: {
-    opacity: 0,
-    x: 200,
     transition: {
-      staggerChildren: 0.5,
-      type: "linear",
+      staggerDirection: -1,
+      when: "afterChildren",
     },
   },
 };
 
-const btnVariants = {
+const childrenVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      delay: 0.5,
+      staggerChildren: 0.2,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      when: "afterChildren",
+      staggerChildren: 0.2,
+      staggerDirection: -1,
+      delayChildren: 0.2,
     },
   },
 };
 
+const spanVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
 export default function Home() {
   return (
-    <motion.div exit={{ opacity: 0 }}>
+    <>
       <Head>
         <title>Home | Next JS</title>
       </Head>
       <Wrapper
-        variants={variants}
+        variants={containerVariants}
         initial='hidden'
         animate='visible'
         exit='exit'
       >
-        <Title
-          variants={variants}
-          initial='hidden'
-          animate='visible'
-          exit='exit'
-        >
-          <motion.span variants={variants}>
-            Hi, I'm <TitleFocus>Denys</TitleFocus>
-          </motion.span>
-          <br />
-          <motion.span variants={variants}>
-            I'm a front-end developer{" "}
-          </motion.span>
-        </Title>
-        <Link href='/projects'>
-          <Btn initial='hidden' animate='visible' variants={btnVariants}>
-            View my works
+        <motion.div variants={childrenVariants}>
+          <Title>
+            <motion.div variants={spanVariants}>
+              Hi, I'm <TitleFocus>Denys</TitleFocus>
+            </motion.div>
+            <motion.div variants={spanVariants}>
+              I'm a front-end developer{" "}
+            </motion.div>
+          </Title>
+        </motion.div>
+        <motion.div variants={childrenVariants}>
+          <Btn>
+            <Link href='/projects'>
+              <a>View my works</a>
+            </Link>
           </Btn>
-        </Link>
+        </motion.div>
       </Wrapper>
-    </motion.div>
+    </>
   );
 }
 
@@ -80,7 +88,7 @@ const Wrapper = styled(motion.main)`
   transition: all 1s ease;
 `;
 
-const Title = styled(motion.h1)`
+const Title = styled.h1`
   text-align: center;
   margin-bottom: 30px;
   font-size: 30px;
@@ -91,10 +99,10 @@ const TitleFocus = styled.span`
   font-weight: 700;
 `;
 
-const Btn = styled(motion.a)`
+const Btn = styled.div`
   display: block;
   width: 200px;
-  height: 50px;
+  padding: 10px 0;
   border: 2px solid rgb(60, 1, 107);
   text-align: center;
   font-size: 20px;
@@ -103,7 +111,9 @@ const Btn = styled(motion.a)`
   transition: all 0.3s ease;
   cursor: pointer;
   :hover {
-    color: white;
+    a {
+      color: white;
+    }
     background-color: rgb(60, 1, 107);
   }
 `;
