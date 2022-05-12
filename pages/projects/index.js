@@ -1,25 +1,41 @@
-import Link from "next/link";
-import styled from "styled-components";
-import Image from "next/image";
-import Head from "next/head";
-
-import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import Head from "next/head";
+import { AnimatePresence, motion } from "framer-motion";
+import styled from "styled-components";
 
-const titleVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
+import Link from "next/link";
+import Image from "next/image";
+
+const projects = [
+  {
+    name: "DoIt",
+    description: "A simple application for your to-do list.",
+    technologies: "React Js",
+    image: "/DoIt.png",
+    imageW: 700,
+    imageH: 450,
   },
-};
+  {
+    name: "GetWeather",
+    description: "Minimalistic website for weather control.",
+    technologies: "React Js",
+    image: "/GetWeather.png",
+    imageW: 900,
+    imageH: 530,
+  },
+];
 
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: {},
   visible: {
-    opacity: 1,
     transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.1,
+      staggerChildren: 0.2,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.2,
+      when: "afterChildren",
     },
   },
 };
@@ -29,24 +45,16 @@ const childrenVariants = {
   visible: {
     opacity: 1,
     transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.1,
+      staggerChildren: 0.2,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.4,
     },
   },
 };
-
-const projects = [
-  {
-    name: "DoIt",
-    description: "A simple application for your to-do list",
-    technologies: "React Js",
-  },
-  {
-    name: "GetWeather",
-    description: "Minimalistic website for weather control",
-    technologies: "React Js",
-  },
-];
 
 export default function Projects() {
   const [selectedProj, setSelectedProj] = useState(projects[0]);
@@ -56,9 +64,14 @@ export default function Projects() {
       <Head>
         <title>Projects | Next JS</title>
       </Head>
-      <Wrapper initial='hidden' animate='visible' variants={containerVariants}>
-        <Title variants={titleVariants}>My projects</Title>
-        <List>
+      <Wrapper
+        variants={containerVariants}
+        initial='hidden'
+        animate='visible'
+        exit='exit'
+      >
+        <Title variants={childrenVariants}>My projects</Title>
+        <List variants={childrenVariants}>
           {projects.map((item, index) => (
             <Item
               key={index}
@@ -72,22 +85,49 @@ export default function Projects() {
             </Item>
           ))}
         </List>
-        <main>
-          <motion.div
-            key={selectedProj ? selectedProj.name : "empty"}
-            animate={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 20 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.15 }}
-          >
-            {selectedProj ? selectedProj.description : "😋"}
-          </motion.div>
-        </main>
+        <motion.div variants={childrenVariants}>
+          <AnimatePresence exitBeforeEnter>
+            <Project
+              key={selectedProj ? selectedProj.description : "empty"}
+              variants={childrenVariants}
+              initial='hidden'
+              animate='visible'
+              exit='exit'
+            >
+              <motion.div className='about' variants={childrenVariants}>
+                {selectedProj ? selectedProj.description : "😋"}
+                <Link href={`/projects/${selectedProj.name}`}>
+                  <a> Learn more</a>
+                </Link>
+              </motion.div>
+              <motion.div className='image' variants={childrenVariants}>
+                <Image
+                  src={selectedProj ? selectedProj.image : "😋"}
+                  alt='Picture of the project'
+                  width={selectedProj ? selectedProj.imageW : "😋"}
+                  height={selectedProj ? selectedProj.imageH : "😋"}
+                />
+              </motion.div>
+            </Project>
+          </AnimatePresence>
+        </motion.div>
       </Wrapper>
     </>
   );
 }
-const Item = styled.li`
+
+const Project = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+  a {
+    font-weight: 700;
+  }
+`;
+
+const Item = styled(motion.li)`
   position: relative;
   .underline {
     position: absolute;
@@ -95,7 +135,7 @@ const Item = styled.li`
     left: 0;
     right: 0;
     height: 1px;
-    background: black;
+    background: rgb(60, 1, 107);
   }
 `;
 
@@ -112,11 +152,11 @@ const Wrapper = styled(motion.main)`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 80px;
+  gap: 20px;
   padding-top: 65px;
 `;
 
 const Title = styled(motion.h1)`
   font-size: 40px;
-  margin: 40px;
+  margin: 40px 0 20px;
 `;

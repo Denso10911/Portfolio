@@ -8,6 +8,7 @@ export default function Skills() {
     { skill: "JavaScript", point: 60 },
     { skill: "React", point: 70 },
     { skill: "Next.js", point: 65 },
+    { skill: "Photoshop", point: 40 },
   ];
 
   return (
@@ -20,11 +21,14 @@ export default function Skills() {
               point={item.point}
               initial={{ width: 0 }}
               animate={{ width: `${item.point}%` }}
+              exit={{ width: 0 }}
               transition={{
                 duration: 2,
               }}
-            ></Scale>
-            <Point>{`${item.point} %`}</Point>
+            >
+              {" "}
+              <Point>{`${item.point} %`}</Point>
+            </Scale>
           </Item>
         );
       })}
@@ -34,10 +38,13 @@ export default function Skills() {
 const Scale = styled(motion.div)`
   background-color: rgb(216, 185, 242);
   height: 30px;
+  display: flex;
+  justify-content: end;
 `;
 
 const Point = styled.div`
   text-align: center;
+  width: 50px;
 `;
 
 const Title = styled.div`
@@ -56,11 +63,12 @@ const Item = styled(motion.li)`
 `;
 
 const List = styled(motion.ul)`
+  margin: 0;
+  padding: 0;
   display: grid;
   align-items: center;
   grid-area: c;
   text-align: center;
-  row-gap: 5px;
-  height: 60%;
+  row-gap: 10px;
   margin-bottom: 80px;
 `;

@@ -1,24 +1,26 @@
 import styled from "styled-components";
 import Head from "next/head";
 
-import { FaReact } from "react-icons/fa";
-import { SiReactrouter, SiFontawesome } from "react-icons/si";
-import { FiFramer } from "react-icons/fi";
-import { MdOutlineFormatListBulleted } from "react-icons/md";
-import { CgArrowsExchange } from "react-icons/cg";
-import { TiWeatherWindyCloudy } from "react-icons/ti";
+import { FaReact } from "@react-icons/all-files/fa/FaReact";
+import { SiReactrouter } from "@react-icons/all-files/si/SiReactrouter";
+import { SiFontawesome } from "@react-icons/all-files/si/SiFontawesome";
+import { GiPlatform } from "@react-icons/all-files/gi/GiPlatform";
+import { FiFramer } from "@react-icons/all-files/fi/FiFramer";
+import { CgArrowsExchange } from "@react-icons/all-files/cg/CgArrowsExchange";
+import { TiWeatherWindyCloudy } from "@react-icons/all-files/ti/TiWeatherWindyCloudy";
+
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const modules = [
-  { name: "React.js", icon: <FaReact /> },
-  { name: "React Router Dom", icon: <SiReactrouter /> },
-  { name: "Framer Motion", icon: <FiFramer /> },
-  { name: "Axios", icon: <CgArrowsExchange /> },
-  { name: "Formik", icon: <MdOutlineFormatListBulleted /> },
-  { name: "Font Awesome", icon: <SiFontawesome /> },
-];
 export default function GetWeather() {
+  const modules = [
+    { name: "React.js", icon: <FaReact /> },
+    { name: "React Router Dom", icon: <SiReactrouter /> },
+    { name: "Framer Motion", icon: <FiFramer /> },
+    { name: "Axios", icon: <CgArrowsExchange /> },
+    { name: "Formik", icon: <GiPlatform /> },
+    { name: "Font Awesome", icon: <SiFontawesome /> },
+  ];
   return (
     <>
       <Head>

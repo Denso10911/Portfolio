@@ -21,7 +21,3 @@ a {
 ul {
   list-style: none;
 }
-
-.active {
-  text-shadow: 0 0 3px rgb(60, 1, 107);
-}

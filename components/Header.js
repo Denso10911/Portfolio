@@ -3,41 +3,37 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import { useState } from "react";
+
+const social = [
+  {
+    link: "https://www.facebook.com/denis.gerasimov.754",
+    icon: <FiFacebook />,
+  },
+  {
+    link: "https://github.com/Denso10911",
+    icon: <FiGithub />,
+  },
+  {
+    link: "https://www.linkedin.com/in/densy-herasymov-720abb227/",
+    icon: <FiLinkedin />,
+  },
+];
+
+const navigation = [
+  { link: "/", title: "Home" },
+  { link: "/about", title: "About" },
+  { link: "/projects", title: "Projects" },
+];
 
 export default function Header() {
   const router = useRouter();
-  const social = [
-    {
-      link: "https://www.facebook.com/denis.gerasimov.754",
-      icon: <FiFacebook />,
-    },
-    {
-      link: "https://github.com/Denso10911",
-      icon: <FiGithub />,
-    },
-    {
-      link: "https://www.linkedin.com/in/densy-herasymov-720abb227/",
-      icon: <FiLinkedin />,
-    },
-  ];
 
-  const navigation = [
-    { link: "/", title: "Home" },
-    { link: "/about", title: "About" },
-    { link: "/projects", title: "Projects" },
-  ];
+  let navIndex = navigation.findIndex((el) => el.link === router.asPath);
+  const [selectedNav, setSelectedNav] = useState(navigation[navIndex]);
 
-  const variants = {
-    hidden: { y: -100 },
-    visible: { y: 0 },
-  };
   return (
-    <HeaderTopLine
-      route={router.pathname}
-      initial='hidden'
-      animate='visible'
-      variants={variants}
-    >
+    <HeaderTopLine route={router.pathname}>
       <List>
         {social.map((item, index) => {
           return (
@@ -53,21 +49,25 @@ export default function Header() {
           );
         })}
       </List>
+
       <List>
-        {navigation.map((item, index) => {
-          return (
-            <Item key={index} route={router.pathname}>
-              <Link href={`${item.link}`}>
-                <ItemLink
-                  className={router.asPath === `${item.link}` ? "active" : ""}
-                  route={router.pathname}
-                >
-                  {item.title}
-                </ItemLink>
-              </Link>
-            </Item>
-          );
-        })}
+        {navigation.map((item, index) => (
+          <Item
+            key={index}
+            className={item === selectedNav ? "selected" : ""}
+            onClick={() => setSelectedNav(item)}
+          >
+            <Link href={`${item.link}`}>
+              <ItemLink route={router.pathname}>{item.title}</ItemLink>
+            </Link>
+            {item === selectedNav ? (
+              <motion.div
+                className='header__underline'
+                layoutId='header__underline'
+              />
+            ) : null}
+          </Item>
+        ))}
       </List>
     </HeaderTopLine>
   );
@@ -94,24 +94,6 @@ const HeaderTopLine = styled(motion.header)`
         return "white";
     }
   }};
-  :before {
-    content: "";
-    position: absolute;
-    width: 90%;
-    border: 1px solid
-      ${(props) => {
-        switch (props.route) {
-          case "/projects/DoIt":
-            return "#009688;";
-          case "/projects/GetWeather":
-            return "white";
-          default:
-            return mainColor;
-        }
-      }};
-    bottom: -10px;
-    left: calc((100% - 90%) / 2);
-  }
 `;
 
 const List = styled.ul`
@@ -129,7 +111,7 @@ const ItemLink = styled.a`
   color: ${(props) => {
     switch (props.route) {
       case "/projects/DoIt":
-        return "#009688;";
+        return "#009688";
       case "/projects/GetWeather":
         return "white";
       default:
@@ -138,9 +120,22 @@ const ItemLink = styled.a`
   }};
 `;
 
-const Item = styled.li`
+const Item = styled(motion.li)`
   display: flex;
-  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  :hover {
+    transform: scale(1.1);
+  }
+  .header__underline {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgb(60, 1, 107);
+  }
   a {
     display: block;
     padding-bottom: 5px;
@@ -148,18 +143,5 @@ const Item = styled.li`
     font-size: 30px;
     line-height: 30px;
     transition: all 0.3s ease;
-    :hover {
-      text-shadow: 0 0 3px
-        ${(props) => {
-          switch (props.route) {
-            case "/projects/DoIt":
-              return "#009688;";
-            case "/projects/GetWeather":
-              return "white";
-            default:
-              return "rgb(44, 1, 79)";
-          }
-        }};
-    }
   }
 `;

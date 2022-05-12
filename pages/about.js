@@ -1,6 +1,7 @@
-import styled from "styled-components";
 import Head from "next/head";
 import { motion } from "framer-motion";
+import styled from "styled-components";
+
 import Priority from "../components/About/Priority";
 import Biography from "../components/About/Biography";
 import Skills from "../components/About/Skills";
@@ -9,12 +10,13 @@ const containerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.8,
     },
   },
   exit: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.4,
+      staggerDirection: -1,
       when: "afterChildren",
     },
   },
@@ -23,16 +25,10 @@ const containerVariants = {
 const childrenVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
-  exitTitle: {
-    opacity: 0,
-    transition: {
-      delay: 0,
-    },
-  },
   exit: {
     opacity: 0,
     transition: {
-      delay: 0.8,
+      duration: 0.4,
     },
   },
 };
@@ -49,11 +45,9 @@ export default function About() {
         animate='visible'
         exit='exit'
       >
-        <Title variants={childrenVariants} exit='exitTitle'>
-          About me
-        </Title>
+        <Title variants={childrenVariants}>About me</Title>
+        <Priority />
         <Container variants={childrenVariants}>
-          <Priority />
           <Biography />
           <Skills />
         </Container>
@@ -68,17 +62,20 @@ const Wrapper = styled(motion.main)`
   flex-direction: column;
   padding-bottom: 80px;
   padding-top: 55px;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const Title = styled(motion.h1)`
+  display: block;
   font-size: 40px;
   margin-bottom: 50px;
 `;
 
 const Container = styled(motion.div)`
-  display: grid;
-  grid-template-areas: "a a a " "b c c";
-  align-items: center;
+  display: flex;
+  justify-content: space-between;
   max-width: 1200px;
   width: 100%;
+  gap: 20px;
 `;

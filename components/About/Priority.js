@@ -12,7 +12,6 @@ const containerVariants = {
   visible: {
     transition: {
       staggerChildren: 0.2,
-      delayChildren: 0.1,
     },
   },
   exit: {
@@ -79,18 +78,8 @@ const List = styled(motion.ul)`
   grid-area: a;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 20px;
-  padding: 0 0 50px;
   margin-bottom: 50px;
   position: relative;
-  :before {
-    content: "";
-    display: block;
-    position: absolute;
-    border: 1px solid rgb(60, 1, 107);
-    width: 60%;
-    margin-left: calc((100% - 60%) / 2);
-    bottom: 0;
-  }
 `;
 
 const Item = styled(motion.li)`
@@ -107,7 +96,8 @@ const Icon = styled.div`
     content: "";
     display: block;
     position: absolute;
-    border: 1px solid rgb(60, 1, 107);
+    height: 1px;
+    background-color: rgb(60, 1, 107);
     width: 30%;
     margin-left: calc((100% - 30%) / 2);
     bottom: 0;
