@@ -1,16 +1,41 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { FiCheckSquare } from "@react-icons/all-files/fi/FiCheckSquare";
+import { FiSquare } from "@react-icons/all-files/fi/FiSquare";
+import { FaReact } from "@react-icons/all-files/fa/FaReact";
+import { FiFramer } from "@react-icons/all-files/fi/FiFramer";
+import { SiIcon } from "@react-icons/all-files/si/SiIcon";
+import { motion } from "framer-motion";
 
-import { FiCheckSquare, FiSquare } from "react-icons/fi";
-import { FaReact } from "react-icons/fa";
-import { FiFramer } from "react-icons/fi";
-import { SiIconfinder } from "react-icons/si";
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.8,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.2,
+      staggerDirection: -1,
+      delayChildren: 0.2,
+      when: "afterChildren",
+    },
+  },
+};
+
+const childrenVariants = {
+  hidden: { opacity: 0, x: 200 },
+  visible: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: 200 },
+};
 
 export default function ModulesList() {
   const [modules, setModules] = useState([
     { name: "React.js", icon: <FaReact />, done: false },
     { name: "Framer Motion", icon: <FiFramer />, done: false },
-    { name: "React Icons", icon: <SiIconfinder />, done: true },
+    { name: "React Icons", icon: <SiIcon />, done: true },
   ]);
   const onTaskDone = (name) => {
     setModules((prev) =>
@@ -20,10 +45,15 @@ export default function ModulesList() {
     );
   };
   return (
-    <List>
+    <List
+      variants={containerVariants}
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+    >
       {modules.map((item, index) => {
         return (
-          <Item key={index}>
+          <Item key={index} variants={childrenVariants}>
             <Title done={item.done}>{item.name}</Title>
             <Icons>
               {item.done && (
@@ -92,7 +122,7 @@ const Title = styled.h4`
   font-style: ${(props) => (props.done ? "italic" : "normal")};
 `;
 
-const Item = styled.li`
+const Item = styled(motion.li)`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -103,8 +133,8 @@ const Item = styled.li`
   position: relative;
 `;
 
-const List = styled.ul`
-  width: 80%;
+const List = styled(motion.ul)`
+  width: 170%;
   margin: 0 auto;
   display: flex;
   gap: 10px;

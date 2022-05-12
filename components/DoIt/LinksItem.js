@@ -1,11 +1,80 @@
 import styled from "styled-components";
 import { useState } from "react";
 import Link from "next/link";
+import { FiCodesandbox } from "@react-icons/all-files/fi/FiCodesandbox";
+import { BiColorFill } from "@react-icons/all-files/bi/BiColorFill";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 
-import { FiCodesandbox } from "react-icons/fi";
-import { BiColorFill } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+const containerVariants = {
+  hidden: {
+    x: -200,
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      delay: 1.3,
+    },
+  },
+  exit: {
+    x: -200,
+    opacity: 0,
+    transition: {
+      delay: 0.4,
+    },
+  },
+};
 
+const colorsVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 1.4,
+      staggerChildren: 0.1,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+      when: "afterChildren",
+    },
+  },
+};
+
+const colorVariants = {
+  hidden: {
+    x: -200,
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: {
+    x: -200,
+    opacity: 0,
+  },
+};
+
+const onlyColorsVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+      when: "afterChildren",
+    },
+  },
+};
 export default function LinksItem() {
   let [editMode, setEditMode] = useState(true);
   let [linkColor, setLinkColor] = useState("rgb(103, 58, 183)");
@@ -16,50 +85,78 @@ export default function LinksItem() {
     "rgb(0, 150, 136)",
     "rgb(76, 175, 80)",
   ];
+  /* <------------------> use it for swich off delayChildren in colorsVariants*/
+  let [firstColorsAnime, setFirstColorsAnime] = useState(true);
+  useEffect(() => {
+    setFirstColorsAnime(false);
+  }, []);
+  /* <------------------>*/
+
   return (
-    <Container color={linkColor}>
+    <Container
+      color={linkColor}
+      variants={containerVariants}
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+    >
       <Icons>
         <Icon>
           <FiCodesandbox />
         </Icon>
         <IconColor>
           {!editMode && (
-            <button
+            <motion.button
               onClick={() => {
                 setEditMode(!editMode);
               }}
               className='links__btn'
+              initial={{ opacity: 0, display: "none" }}
+              animate={{ opacity: 1, display: "flex" }}
+              transition={{ delay: 0.9 }}
             >
               <BiColorFill />
-            </button>
+            </motion.button>
           )}
-          {editMode && (
-            <>
-              <button
-                onClick={() => {
-                  setEditMode(!editMode);
-                }}
-                className='links__btn'
-              >
-                <AiOutlineClose />
-              </button>
-              <div className='todoPriority__container'>
-                {colors.map((e, index) => {
-                  return (
-                    <span
-                      onClick={() => {
-                        setLinkColor(e);
-                        setEditMode(false);
-                      }}
-                      className='link__colors'
-                      key={index}
-                      style={{ backgroundColor: `${e}` }}
-                    ></span>
-                  );
-                })}
-              </div>
-            </>
-          )}
+          <AnimatePresence exitBeforeEnter>
+            {editMode && (
+              <>
+                <button
+                  onClick={() => {
+                    setEditMode(!editMode);
+                  }}
+                  className='links__btn'
+                >
+                  <AiOutlineClose />
+                </button>
+
+                <motion.div
+                  className='todoPriority__container'
+                  variants={
+                    firstColorsAnime ? colorsVariants : onlyColorsVariants
+                  }
+                  initial='hidden'
+                  animate='visible'
+                  exit='exit'
+                >
+                  {colors.map((e, index) => {
+                    return (
+                      <motion.span
+                        onClick={() => {
+                          setLinkColor(e);
+                          setEditMode(false);
+                        }}
+                        className='link__colors'
+                        key={index}
+                        style={{ backgroundColor: `${e}` }}
+                        variants={colorVariants}
+                      ></motion.span>
+                    );
+                  })}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </IconColor>
       </Icons>
       <Btn>
@@ -104,6 +201,7 @@ const IconColor = styled.div`
   }
   .todoPriority__container > span {
     width: 30px;
+    display: block;
     height: 30px;
     box-shadow: 0 0 3px black;
     border-radius: 50%;
@@ -152,7 +250,7 @@ const Icons = styled.div`
   display: flex;
 `;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -161,5 +259,5 @@ const Container = styled.div`
   padding: 20px;
   box-sizing: border-box;
   position: relative;
-  width: 80%;
+  width: 90%;
 `;

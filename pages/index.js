@@ -78,7 +78,7 @@ export default function Home() {
 }
 
 const Wrapper = styled(motion.main)`
-  height: calc(100vh - 65px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;

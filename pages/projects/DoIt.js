@@ -1,8 +1,51 @@
 import styled from "styled-components";
 import Head from "next/head";
+import { motion } from "framer-motion";
 
 import ModulesList from "../../components/DoIt/ModulesList";
 import LinksItem from "../../components/DoIt/LinksItem";
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.8,
+      staggerDirection: -1,
+      when: "afterChildren",
+    },
+  },
+};
+
+const childrenVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.4,
+      staggerChildren: 0.2,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      delayChildren: 0.4,
+      staggerChildren: 0.2,
+      staggerDirection: -1,
+      when: "afterChildren",
+    },
+  },
+};
+
+const titleVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 export default function DoIt() {
   return (
@@ -10,26 +53,31 @@ export default function DoIt() {
       <Head>
         <title>Do It | Next JS</title>
       </Head>
-      <Wrapper>
-        <TitleAbout>Do It</TitleAbout>
-        <Container>
-          <Description>
+      <Wrapper
+        variants={containerVariants}
+        initial='hidden'
+        animate='visible'
+        exit='exit'
+      >
+        <TitleAbout variants={childrenVariants}>Do It</TitleAbout>
+        <Container variants={childrenVariants}>
+          <Description variants={titleVariants}>
             I present to your attention a simple site for saving to bring the
             set before you.
           </Description>
           <Modules>
-            <ModulesTitle>
+            <Titles variants={titleVariants}>
               In this project, I used this series of libraries, which helped me
               write a functional and easy-to-use application.
-            </ModulesTitle>
+            </Titles>
             <ModulesList />
           </Modules>
           <Links>
             <LinksItem />
-            <LinksTitle>
+            <Titles variants={titleVariants}>
               You can also follow the link to this site and try the
               functionality of this application
-            </LinksTitle>
+            </Titles>
           </Links>
         </Container>
       </Wrapper>
@@ -37,36 +85,30 @@ export default function DoIt() {
   );
 }
 
-const ModulesTitle = styled.h2`
-  color: white;
-  font-size: 20px;
-  font-weight: normal;
-  width: 30%;
-  display: flex;
-  align-items: center;
-`;
-
-const LinksTitle = styled.div`
+const Titles = styled(motion.h2)`
   color: white;
   font-size: 20px;
   font-weight: normal;
   display: flex;
   align-items: center;
+  width: auto;
 `;
 
-const Modules = styled.div`
+const Modules = styled(motion.div)`
   display: flex;
   margin-bottom: 30px;
+  width: 100%;
 `;
 
-const Links = styled.div`
+const Links = styled(motion.div)`
   display: flex;
   gap: 20px;
-  width: 80%;
+  width: 90%;
   justify-content: space-between;
+  align-items: center;
 `;
 
-const Description = styled.div`
+const Description = styled(motion.div)`
   display: flex;
   border-radius: 10px;
   padding: 10px;
@@ -80,7 +122,7 @@ const Description = styled.div`
   margin-bottom: 30px;
 `;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,7 +138,7 @@ const Container = styled.div`
   max-width: 1200px;
 `;
 
-const Wrapper = styled.main`
+const Wrapper = styled(motion.main)`
   height: 100vh;
   display: flex;
   align-items: center;
@@ -111,9 +153,10 @@ const Wrapper = styled.main`
     rgba(255, 255, 255, 1) 100%
   );
   background-size: cover;
+  overflow-x: hidden;
 `;
 
-const TitleAbout = styled.h1`
+const TitleAbout = styled(motion.h1)`
   font-size: 40px;
   margin: 30px auto;
   color: #009688;

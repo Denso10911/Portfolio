@@ -26,6 +26,8 @@ export default function Footer() {
 const mainColor = "rgb(60, 1, 107)";
 
 const FooterBlock = styled(motion.footer)`
+  position: absolute;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;

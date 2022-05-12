@@ -56,6 +56,7 @@ export default function Header() {
             key={index}
             className={item === selectedNav ? "selected" : ""}
             onClick={() => setSelectedNav(item)}
+            route={router.pathname}
           >
             <Link href={`${item.link}`}>
               <ItemLink route={router.pathname}>{item.title}</ItemLink>
@@ -84,16 +85,7 @@ const HeaderTopLine = styled(motion.header)`
   margin: 0 auto;
   padding: 0 60px;
   position: absolute;
-  background-color: ${(props) => {
-    switch (props.route) {
-      case "/projects/DoIt":
-        return "inherit";
-      case "/projects/GetWeather":
-        return "black";
-      default:
-        return "white";
-    }
-  }};
+  background-color: inherit;
 `;
 
 const List = styled.ul`
@@ -134,7 +126,16 @@ const Item = styled(motion.li)`
     left: 0;
     right: 0;
     height: 2px;
-    background: rgb(60, 1, 107);
+    background: ${(props) => {
+      switch (props.route) {
+        case "/projects/DoIt":
+          return "#009688";
+        case "/projects/GetWeather":
+          return "white";
+        default:
+          return mainColor;
+      }
+    }};
   }
   a {
     display: block;
