@@ -1,13 +1,16 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/globals.css";
+
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 import NProgress from "nprogress";
 import "../styles/nprogress.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
+  const [navbarOpen, setNavbarOpen] = useState(false);
+
   NProgress.configure({ showSpinner: false });
   const router = useRouter();
   useEffect(() => {
@@ -30,9 +33,13 @@ function MyApp({ Component, pageProps }) {
   }, [router]);
   return (
     <>
-      <Header />
+      <Header navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
       <AnimatePresence exitBeforeEnter>
-        <Component {...pageProps} key={router.pathname} />
+        <Component
+          {...pageProps}
+          key={router.pathname}
+          navbarOpen={navbarOpen}
+        />
       </AnimatePresence>
       <Footer />
     </>

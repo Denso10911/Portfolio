@@ -1,4 +1,6 @@
 import { FiFacebook, FiGithub, FiLinkedin } from "react-icons/fi";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -26,11 +28,20 @@ const navigation = [
   { link: "/projects", title: "Projects" },
 ];
 
-export default function Header() {
+export default function Header({ navbarOpen, setNavbarOpen }) {
   const router = useRouter();
 
   let navIndex = navigation.findIndex((el) => el.link === router.asPath);
   const [selectedNav, setSelectedNav] = useState(navigation[navIndex]);
+
+  const handelItemClick = (item) => {
+    setSelectedNav(item);
+    setNavbarOpen(!navbarOpen);
+  };
+
+  const handleClick = () => {
+    setNavbarOpen(!navbarOpen);
+  };
 
   return (
     <HeaderTopLine route={router.pathname}>
@@ -42,6 +53,7 @@ export default function Header() {
                 href={item.link}
                 target='_blank'
                 route={router.pathname}
+                className='social__links'
               >
                 {item.icon}
               </ItemLink>
@@ -50,12 +62,16 @@ export default function Header() {
         })}
       </List>
 
-      <List>
+      <BurgerIcon onClick={handleClick}>
+        {navbarOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
+      </BurgerIcon>
+
+      <List className={`navigation ${navbarOpen ? "navigetion__show" : ""}`}>
         {navigation.map((item, index) => (
           <Item
             key={index}
             className={item === selectedNav ? "selected" : ""}
-            onClick={() => setSelectedNav(item)}
+            onClick={() => handelItemClick(item)}
             route={router.pathname}
           >
             <Link href={`${item.link}`}>
@@ -76,16 +92,43 @@ export default function Header() {
 
 const mainColor = "rgb(60, 1, 107)";
 
+const BurgerIcon = styled.button`
+  display: none;
+  font-size: 30px;
+  z-index: 2;
+  border: none;
+  background-color: inherit;
+  color: ${(props) => {
+    switch (props.route) {
+      case "/projects/DoIt":
+        return "#009688";
+      case "/projects/GetWeather":
+        return "white";
+      default:
+        return mainColor;
+    }
+  }};
+  @media (max-width: 600px) {
+    display: block;
+  }
+`;
+
 const HeaderTopLine = styled(motion.header)`
   display: flex;
   justify-content: space-between;
-  font-size: 30px;
   width: 100%;
   height: 55px;
   margin: 0 auto;
   padding: 0 60px;
   position: absolute;
   background-color: inherit;
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
+  @media (max-width: 600px) {
+    padding: 0 20px;
+    position: static;
+  }
 `;
 
 const List = styled.ul`
@@ -97,6 +140,23 @@ const List = styled.ul`
   list-style: none;
   margin: 0;
   padding: 10px 0 0;
+  &.navigation {
+    @media (max-width: 600px) {
+      display: none;
+      &.navigetion__show {
+        display: flex;
+        flex-direction: column;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        align-items: flex-end;
+        padding: 45px 20px 0;
+        position: absolute;
+        width: 150px;
+        background-color: #5600ff54;
+      }
+    }
+  }
 `;
 
 const ItemLink = styled.a`
@@ -144,5 +204,8 @@ const Item = styled(motion.li)`
     font-size: 30px;
     line-height: 30px;
     transition: all 0.3s ease;
+    @media (max-width: 375px) {
+      font-size: 25px;
+    }
   }
 `;

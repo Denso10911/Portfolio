@@ -77,6 +77,10 @@ const Container = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   max-width: 1200px;
-  width: 100%;
+  width: 90%;
   gap: 20px;
+  @media (max-width: 850px) {
+    flex-direction: column;
+    width: 80%;
+  }
 `;

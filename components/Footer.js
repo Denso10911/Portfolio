@@ -31,6 +31,7 @@ const FooterBlock = styled(motion.footer)`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   width: 100%;
   padding: 10px 30px;
   color: ${(props) => {
@@ -43,4 +44,7 @@ const FooterBlock = styled(motion.footer)`
         return mainColor;
     }
   }};
+  @media (max-width: 375px) {
+    font-size: 13px;
+  }
 `;

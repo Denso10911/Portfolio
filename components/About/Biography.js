@@ -55,10 +55,12 @@ export default function Biography() {
   );
 }
 const Container = styled(motion.div)`
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  grid-area: b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 850px) {
+    flex-direction: row;
+  }
 `;
 
 const Photo = styled(motion.div)`
@@ -73,4 +75,7 @@ const Paragraph = styled(motion.p)`
   text-align: center;
   width: 80%;
   margin: 0 auto;
+  @media (max-width: 850px) {
+    width: 50%;
+  }
 `;

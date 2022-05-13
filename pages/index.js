@@ -43,7 +43,7 @@ const spanVariants = {
   exit: { opacity: 0 },
 };
 
-export default function Home() {
+export default function Home({ navbarOpen }) {
   return (
     <>
       <Head>
@@ -54,6 +54,7 @@ export default function Home() {
         initial='hidden'
         animate='visible'
         exit='exit'
+        navbarOpen={navbarOpen}
       >
         <motion.div variants={childrenVariants}>
           <Title>
@@ -86,6 +87,11 @@ const Wrapper = styled(motion.main)`
   padding-bottom: 80px;
   padding-top: 55px;
   transition: all 1s ease;
+  @media (max-width: 600px) {
+    min-height: calc(100vh - 55px);
+    padding-top: 0;
+    margin-right: ${(props) => (props.navbarOpen ? "150px" : "0px")};
+  }
 `;
 
 const Title = styled.h1`
@@ -102,7 +108,7 @@ const TitleFocus = styled.span`
 const Btn = styled.div`
   display: block;
   width: 200px;
-  padding: 10px 0;
+  padding: 10px;
   border: 2px solid rgb(60, 1, 107);
   text-align: center;
   font-size: 20px;
@@ -110,6 +116,9 @@ const Btn = styled.div`
   color: rgb(60, 1, 107);
   transition: all 0.3s ease;
   cursor: pointer;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
   :hover {
     a {
       color: white;

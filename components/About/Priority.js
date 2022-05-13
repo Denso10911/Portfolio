@@ -74,11 +74,11 @@ export default function Priority() {
 }
 
 const List = styled(motion.ul)`
-  display: grid;
-  grid-area: a;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   column-gap: 20px;
-  margin-bottom: 50px;
+  margin: 0 0 50px;
+  padding: 0;
+  width: 90%;
   position: relative;
 `;
 
