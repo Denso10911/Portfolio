@@ -30,7 +30,7 @@ const childrenVariants = {
   exit: { opacity: 0 },
 };
 
-export default function GetWeather() {
+export default function GetWeather({ navbarOpen }) {
   return (
     <>
       <Head>
@@ -41,6 +41,7 @@ export default function GetWeather() {
         initial='hidden'
         animate='visible'
         exit='exit'
+        navbarOpen={navbarOpen}
       >
         <TitleAbout variants={childrenVariants}>GetWeather</TitleAbout>
         <Description variants={childrenVariants}>
@@ -76,20 +77,22 @@ const Container = styled(motion.div)`
   padding: 5px 10%;
   width: 100%;
   color: white;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
+  @media (max-width: 1024px) {
+    padding: 5px 5%;
+  }
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+  @media (max-width: 600px) {
+    background-color: inherit;
+    box-shadow: none;
+  }
 `;
 const Description = styled(motion.div)`
   color: white;
   margin-bottom: 45px;
   text-align: center;
-  &.api {
-    margin: 0;
-    font-size: 20px;
-    width: 30%;
-    a {
-      color: #ff8a1d;
-    }
-  }
 `;
 const TitleAbout = styled(motion.h1)`
   font-size: 50px;
@@ -102,8 +105,16 @@ const Wrapper = styled(motion.main)`
   align-items: center;
   flex-direction: column;
   padding-bottom: 80px;
-  padding-top: 55px;
+  padding-top: ${(props) => (props.navbarOpen ? "85px" : "55px")};
   background-color: black;
   width: 100%;
   margin: 0 auto;
+  transition: padding-top 0.5s ease;
+
+  @media (max-width: 600px) {
+    height: auto;
+  }
+  @media (max-width: 375px) {
+    /* padding: 55px 10px; */
+  }
 `;

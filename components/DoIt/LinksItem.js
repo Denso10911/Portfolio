@@ -260,4 +260,7 @@ const Container = styled(motion.div)`
   box-sizing: border-box;
   position: relative;
   width: 90%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;

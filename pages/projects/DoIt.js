@@ -47,7 +47,7 @@ const titleVariants = {
   exit: { opacity: 0 },
 };
 
-export default function DoIt() {
+export default function DoIt({ navbarOpen }) {
   return (
     <>
       <Head>
@@ -58,6 +58,7 @@ export default function DoIt() {
         initial='hidden'
         animate='visible'
         exit='exit'
+        navbarOpen={navbarOpen}
       >
         <TitleAbout variants={childrenVariants}>Do It</TitleAbout>
         <Container variants={childrenVariants}>
@@ -91,13 +92,20 @@ const Titles = styled(motion.h2)`
   font-weight: normal;
   display: flex;
   align-items: center;
-  width: auto;
+  width: 40%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Modules = styled(motion.div)`
   display: flex;
   margin-bottom: 30px;
   width: 100%;
+  gap: 20px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Links = styled(motion.div)`
@@ -106,6 +114,9 @@ const Links = styled(motion.div)`
   width: 90%;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const Description = styled(motion.div)`
@@ -120,6 +131,11 @@ const Description = styled(motion.div)`
   justify-content: center;
   background-color: white;
   margin-bottom: 30px;
+  @media (max-width: 425px) {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+  }
 `;
 
 const Container = styled(motion.div)`
@@ -136,15 +152,20 @@ const Container = styled(motion.div)`
   background-color: #67979f;
   transition: all 0.5s ease;
   max-width: 1200px;
+  @media (max-width: 425px) {
+    width: 95%;
+    padding: 20px;
+  }
 `;
 
 const Wrapper = styled(motion.main)`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
   padding-bottom: 80px;
-  padding-top: 55px;
+  transition: padding-top 0.5s ease;
+  padding-top: ${(props) => (props.navbarOpen ? "85px" : "55px")};
   background: rgb(148, 216, 227);
   background: linear-gradient(
     219deg,

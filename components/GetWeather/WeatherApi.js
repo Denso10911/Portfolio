@@ -3,24 +3,6 @@ import { TiWeatherWindyCloudy } from "@react-icons/all-files/ti/TiWeatherWindyCl
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      delayChildren: 1,
-      staggerChildren: 0.2,
-      staggerDirection: -1,
-    },
-  },
-  exit: {
-    transition: {
-      staggerChildren: 0.1,
-      staggerDirection: -1,
-      when: "afterChildren",
-    },
-  },
-};
-
 const childrenVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
@@ -31,10 +13,10 @@ export default function WeatherApi() {
   return (
     <>
       <Container
-        variants={containerVariants}
         initial='hidden'
-        animate='visible'
+        whileInView='visible'
         exit='exit'
+        viewport={{ amount: 0.4, once: true }}
       >
         <Title variants={childrenVariants}>
           <Link href='https://openweathermap.org/'>
@@ -64,6 +46,12 @@ const Icon = styled(motion.div)`
 const Title = styled(motion.div)`
   display: flex;
   font-size: 30px;
+  @media (max-width: 800px) {
+    font-size: 25px;
+  }
+  @media (max-width: 375px) {
+    font-size: 30px;
+  }
   a {
     color: white;
   }
@@ -75,6 +63,13 @@ const Container = styled(motion.div)`
   justify-content: space-around;
   height: 150px;
   gap: 30px;
+  width: 90%;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    height: auto;
+    gap: 10px;
+    margin-top: 15px;
+  }
 `;
 
 const Description = styled(motion.div)`
@@ -85,6 +80,19 @@ const Description = styled(motion.div)`
     margin: 0;
     font-size: 20px;
     width: 30%;
+    @media (max-width: 1024px) {
+      width: 50%;
+    }
+    @media (max-width: 800px) {
+      font-size: 18px;
+    }
+    @media (max-width: 600px) {
+      width: 90%;
+    }
+    @media (max-width: 375px) {
+      font-size: 25px;
+      width: 95%;
+    }
     a {
       color: #ff8a1d;
     }

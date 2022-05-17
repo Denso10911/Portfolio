@@ -23,7 +23,6 @@ const childrenVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {},
   },
   exit: { opacity: 0 },
 };
@@ -33,8 +32,9 @@ export default function Biography() {
     <Container
       variants={containerVariants}
       initial='hidden'
-      animate='visible'
+      whileInView='visible'
       exit='exit'
+      viewport={{ amount: 0.5, once: true }}
     >
       <Photo variants={childrenVariants}>
         <Image
@@ -61,6 +61,10 @@ const Container = styled(motion.div)`
   @media (max-width: 850px) {
     flex-direction: row;
   }
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const Photo = styled(motion.div)`
@@ -77,5 +81,8 @@ const Paragraph = styled(motion.p)`
   margin: 0 auto;
   @media (max-width: 850px) {
     width: 50%;
+  }
+  @media (max-width: 600px) {
+    width: 90%;
   }
 `;

@@ -10,18 +10,18 @@ const projects = [
   {
     name: "DoIt",
     description: "A simple application for your to-do list.",
-    technologies: "React Js",
     image: "/DoIt.png",
-    imageW: 700,
-    imageH: 450,
+    imageVariants: ["/DoIt.png"],
   },
   {
     name: "GetWeather",
     description: "Minimalistic website for weather control.",
-    technologies: "React Js",
     image: "/GetWeather.png",
-    imageW: 900,
-    imageH: 530,
+    imageVariants: [
+      "/GetWeatherScreen.png",
+      "/GetWeatherPhone.png",
+      "/GetWeatherTablet.png",
+    ],
   },
 ];
 
@@ -56,7 +56,7 @@ const childrenVariants = {
   },
 };
 
-export default function Projects() {
+export default function Projects({ navbarOpen }) {
   const [selectedProj, setSelectedProj] = useState(projects[0]);
 
   return (
@@ -69,6 +69,7 @@ export default function Projects() {
         initial='hidden'
         animate='visible'
         exit='exit'
+        navbarOpen={navbarOpen}
       >
         <Title variants={childrenVariants}>My projects</Title>
         <List variants={childrenVariants}>
@@ -85,7 +86,7 @@ export default function Projects() {
             </Item>
           ))}
         </List>
-        <motion.div variants={childrenVariants}>
+        <motion.div variants={childrenVariants} className='projects'>
           <AnimatePresence exitBeforeEnter>
             <Project
               key={selectedProj ? selectedProj.description : "empty"}
@@ -100,14 +101,28 @@ export default function Projects() {
                   <a> Learn more</a>
                 </Link>
               </motion.div>
-              <motion.div className='image' variants={childrenVariants}>
-                <Image
-                  src={selectedProj ? selectedProj.image : "😋"}
-                  alt='Picture of the project'
-                  width={selectedProj ? selectedProj.imageW : "😋"}
-                  height={selectedProj ? selectedProj.imageH : "😋"}
-                />
-              </motion.div>
+              <Images variants={childrenVariants}>
+                <div className='mainImage'>
+                  <Image
+                    src={selectedProj ? selectedProj.image : "😋"}
+                    alt='Picture of the project'
+                    layout='fill'
+                    objectFit='contain'
+                  />
+                </div>
+                {selectedProj.imageVariants.map((i) => {
+                  return (
+                    <div className='imageVariants'>
+                      <Image
+                        src={i}
+                        alt='Picture of the project'
+                        layout='fill'
+                        objectFit='contain'
+                      />
+                    </div>
+                  );
+                })}
+              </Images>
             </Project>
           </AnimatePresence>
         </motion.div>
@@ -115,6 +130,31 @@ export default function Projects() {
     </>
   );
 }
+
+const Images = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .mainImage {
+    height: 500px;
+    width: 100%;
+    position: relative;
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+  .imageVariants {
+    height: 300px;
+    width: 100%;
+    position: relative;
+    display: none;
+    @media (max-width: 600px) {
+      display: block;
+      width: 100%;
+    }
+  }
+`;
 
 const Project = styled(motion.div)`
   display: flex;
@@ -124,6 +164,9 @@ const Project = styled(motion.div)`
   margin: 0 auto;
   a {
     font-weight: 700;
+  }
+  @media (max-width: 425px) {
+    width: 95%;
   }
 `;
 
@@ -153,7 +196,12 @@ const Wrapper = styled(motion.main)`
   align-items: center;
   flex-direction: column;
   gap: 20px;
-  padding-top: 65px;
+  transition: padding-top 0.5s ease;
+  padding-top: ${(props) => (props.navbarOpen ? "85px" : "55px")};
+  .projects {
+    width: 100%;
+    margin-bottom: 75px;
+  }
 `;
 
 const Title = styled(motion.h1)`

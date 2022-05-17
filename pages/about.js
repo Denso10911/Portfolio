@@ -33,7 +33,7 @@ const childrenVariants = {
   },
 };
 
-export default function About() {
+export default function About({ navbarOpen }) {
   return (
     <>
       <Head>
@@ -44,8 +44,11 @@ export default function About() {
         initial='hidden'
         animate='visible'
         exit='exit'
+        navbarOpen={navbarOpen}
       >
-        <Title variants={childrenVariants}>About me</Title>
+        <Title variants={childrenVariants} viewport={{ amount: 0.5 }}>
+          About me
+        </Title>
         <Priority />
         <Container variants={childrenVariants}>
           <Biography />
@@ -62,7 +65,8 @@ const Wrapper = styled(motion.main)`
   align-items: center;
   flex-direction: column;
   padding-bottom: 80px;
-  padding-top: 55px;
+  transition: padding-top 0.5s ease;
+  padding-top: ${(props) => (props.navbarOpen ? "85px" : "55px")};
   max-width: 1200px;
   margin: 0 auto;
 `;

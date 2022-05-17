@@ -134,7 +134,7 @@ const Item = styled(motion.li)`
 `;
 
 const List = styled(motion.ul)`
-  width: 170%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   gap: 10px;

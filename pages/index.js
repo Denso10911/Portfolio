@@ -88,9 +88,7 @@ const Wrapper = styled(motion.main)`
   padding-top: 55px;
   transition: all 1s ease;
   @media (max-width: 600px) {
-    min-height: calc(100vh - 55px);
-    padding-top: 0;
-    margin-right: ${(props) => (props.navbarOpen ? "150px" : "0px")};
+    padding-top: ${(props) => (props.navbarOpen ? "85px" : "55px")};
   }
 `;
 

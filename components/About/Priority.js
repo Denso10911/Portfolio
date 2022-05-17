@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import {
   MdSpeed,
   MdDevicesOther,
@@ -25,7 +25,12 @@ const containerVariants = {
 
 const childrenVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1 },
+  visible: (custom) => ({
+    opacity: 1,
+    transition: {
+      delay: custom * 0.2,
+    },
+  }),
   exit: { opacity: 0 },
 };
 
@@ -54,15 +59,18 @@ export default function Priority() {
   ];
 
   return (
-    <List
-      variants={containerVariants}
-      initial='hidden'
-      animate='visible'
-      exit='exit'
-    >
+    <List>
       {priority.map((item, index) => {
         return (
-          <Item key={index} variants={childrenVariants}>
+          <Item
+            key={index}
+            variants={childrenVariants}
+            custom={index + 1}
+            initial='hidden'
+            whileInView='visible'
+            exit='exit'
+            viewport={{ amount: 0.3, once: false }}
+          >
             <Icon>{item.icon}</Icon>
             <Title>{item.title}</Title>
             <Paragraph>{item.text}</Paragraph>
@@ -80,11 +88,18 @@ const List = styled(motion.ul)`
   padding: 0;
   width: 90%;
   position: relative;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const Item = styled(motion.li)`
   display: grid;
   text-align: center;
+  @media (max-width: 768px) {
+    width: 250px;
+  }
 `;
 
 const Icon = styled.div`

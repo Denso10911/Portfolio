@@ -36,7 +36,7 @@ export default function Header({ navbarOpen, setNavbarOpen }) {
 
   const handelItemClick = (item) => {
     setSelectedNav(item);
-    setNavbarOpen(!navbarOpen);
+    setNavbarOpen(false);
   };
 
   const handleClick = () => {
@@ -45,7 +45,7 @@ export default function Header({ navbarOpen, setNavbarOpen }) {
 
   return (
     <HeaderTopLine route={router.pathname}>
-      <List>
+      <List className='social'>
         {social.map((item, index) => {
           return (
             <Item key={index}>
@@ -62,11 +62,7 @@ export default function Header({ navbarOpen, setNavbarOpen }) {
         })}
       </List>
 
-      <BurgerIcon onClick={handleClick}>
-        {navbarOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
-      </BurgerIcon>
-
-      <List className={`navigation ${navbarOpen ? "navigetion__show" : ""}`}>
+      <List className={`navigation ${navbarOpen ? "navigation__show" : ""}`}>
         {navigation.map((item, index) => (
           <Item
             key={index}
@@ -77,7 +73,7 @@ export default function Header({ navbarOpen, setNavbarOpen }) {
             <Link href={`${item.link}`}>
               <ItemLink route={router.pathname}>{item.title}</ItemLink>
             </Link>
-            {item === selectedNav ? (
+            {item === selectedNav && !navbarOpen ? (
               <motion.div
                 className='header__underline'
                 layoutId='header__underline'
@@ -86,6 +82,13 @@ export default function Header({ navbarOpen, setNavbarOpen }) {
           </Item>
         ))}
       </List>
+      <BurgerIcon
+        onClick={handleClick}
+        route={router.pathname}
+        className='burger'
+      >
+        {navbarOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
+      </BurgerIcon>
     </HeaderTopLine>
   );
 }
@@ -95,6 +98,10 @@ const mainColor = "rgb(60, 1, 107)";
 const BurgerIcon = styled.button`
   display: none;
   font-size: 30px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
   z-index: 2;
   border: none;
   background-color: inherit;
@@ -116,6 +123,7 @@ const BurgerIcon = styled.button`
 const HeaderTopLine = styled(motion.header)`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 55px;
   margin: 0 auto;
@@ -125,16 +133,10 @@ const HeaderTopLine = styled(motion.header)`
   @media (max-width: 768px) {
     padding: 0 20px;
   }
-  @media (max-width: 600px) {
-    padding: 0 20px;
-    position: static;
-  }
 `;
 
 const List = styled.ul`
-  display: grid;
-  box-sizing: border-box;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 20px;
   text-align: center;
   list-style: none;
@@ -143,17 +145,13 @@ const List = styled.ul`
   &.navigation {
     @media (max-width: 600px) {
       display: none;
-      &.navigetion__show {
-        display: flex;
-        flex-direction: column;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        align-items: flex-end;
-        padding: 45px 20px 0;
+      &.navigation__show {
         position: absolute;
-        width: 150px;
-        background-color: #5600ff54;
+        top: 55px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-around;
       }
     }
   }

@@ -9,28 +9,20 @@ import { CgArrowsExchange } from "@react-icons/all-files/cg/CgArrowsExchange";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      delayChildren: 0.7,
-      staggerChildren: 0.1,
-      staggerDirection: -1,
-    },
-  },
-  exit: {
-    transition: {
-      staggerChildren: 0.1,
-      staggerDirection: 1,
-      when: "afterChildren",
-    },
-  },
-};
-
 const childrenVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-  exit: { opacity: 0 },
+  visible: (custom) => ({
+    opacity: 1,
+    transition: {
+      delay: custom / 4,
+    },
+  }),
+  exit: (custom) => ({
+    opacity: 0,
+    transition: {
+      delay: custom * 0.1,
+    },
+  }),
 };
 
 export default function GetWeather() {
@@ -43,15 +35,18 @@ export default function GetWeather() {
   ];
   return (
     <>
-      <List
-        variants={containerVariants}
-        initial='hidden'
-        animate='visible'
-        exit='exit'
-      >
+      <List initial='hidden' animate='visible' exit='exit'>
         {modules.map((item, index) => {
           return (
-            <Item key={index} variants={childrenVariants}>
+            <Item
+              key={index}
+              variants={childrenVariants}
+              custom={index + 1}
+              initial='hidden'
+              whileInView='visible'
+              exit='exit'
+              viewport={{ amount: 0.3, once: true }}
+            >
               <Icons>
                 <Icon>{item.icon}</Icon>
               </Icons>
@@ -73,6 +68,11 @@ const Icon = styled.div`
   height: 30px;
   width: 30px;
   font-weight: normal;
+  @media (max-width: 375px) {
+    height: 40px;
+    width: 40px;
+    font-size: 40px;
+  }
 `;
 
 const Icons = styled(motion.div)`
@@ -84,6 +84,9 @@ const Name = styled(motion.h4)`
   font-size: 20px;
   margin: 0;
   font-weight: normal;
+  @media (max-width: 375px) {
+    font-size: 25px;
+  }
 `;
 
 const Item = styled(motion.li)`
@@ -97,16 +100,25 @@ const Item = styled(motion.li)`
   padding: 20px 5px;
   box-sizing: border-box;
   position: relative;
+  @media (max-width: 500px) {
+    width: 150px;
+  }
+  @media (max-width: 375px) {
+    width: 90%;
+  }
 `;
 
 const List = styled(motion.ul)`
   width: 90%;
   height: 150px;
-  margin: 0 auto;
   padding: 0;
   display: flex;
   justify-content: space-around;
   position: relative;
+  @media (max-width: 500px) {
+    flex-wrap: wrap;
+    height: auto;
+  }
   :before {
     content: "";
     position: absolute;

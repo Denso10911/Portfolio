@@ -2,10 +2,18 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { keyframes } from "styled-components";
 
+const scaleVariants = {
+  hidden: { opacity: 0, display: "none" },
+  visible: {
+    opacity: 1,
+    display: "flex",
+  },
+};
+
 export default function Skills() {
   const skills = [
     { skill: "HTML", point: 70 },
-    { skill: "CSS", point: 100 },
+    { skill: "CSS", point: 80 },
     { skill: "JavaScript", point: 60 },
     { skill: "React", point: 70 },
     { skill: "Next.js", point: 65 },
@@ -13,12 +21,16 @@ export default function Skills() {
   ];
 
   return (
-    <List>
+    <List
+      initial='hidden'
+      whileInView='visible'
+      viewport={{ amount: 0.5, once: true }}
+    >
       {skills.map((item, index) => {
         return (
           <Item key={index}>
             <Title>{item.skill}</Title>
-            <Scale point={item.point}>
+            <Scale point={item.point} variants={scaleVariants}>
               <Point>{`${item.point} %`}</Point>
             </Scale>
           </Item>
@@ -61,6 +73,9 @@ const Scale = styled(motion.div)`
     background-color: rgb(216, 185, 242);
     animation: ${(props) => ScaleHeight(`${props.point}%`)} 2s linear;
   }
+  @media (max-width: 768px) {
+    width: 30px;
+  }
 `;
 
 const Point = styled.div`
@@ -69,6 +84,11 @@ const Point = styled.div`
     position: absolute;
     width: 100px;
   }
+  @media (max-width: 768px) {
+    top: -25px;
+    left: -7px;
+    width: 44px;
+  }
 `;
 
 const Title = styled.div`
@@ -76,10 +96,14 @@ const Title = styled.div`
   width: 100px;
   background-color: rgb(175, 113, 226);
   @media (max-width: 850px) {
-    width: 100px;
     background-color: rgb(175, 113, 226);
     padding: 10px 0;
     z-index: 2;
+  }
+  @media (max-width: 768px) {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    width: 30px;
   }
 `;
 
@@ -106,5 +130,13 @@ const List = styled(motion.ul)`
     height: 250px;
     justify-content: space-between;
     text-align: center;
+  }
+  @media (max-width: 768px) {
+    height: 300px;
+    width: 60%;
+    margin: 0 auto;
+  }
+  @media (max-width: 450px) {
+    width: 90%;
   }
 `;
