@@ -1,5 +1,4 @@
 {
-  "homepage": "https://denso10911.github.io/Portfolio/",
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
@@ -7,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "lint": "next lint"
   },
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
