@@ -62,7 +62,7 @@ const ScaleHeight = (w) => keyframes`
 const Scale = styled(motion.div)`
   background-color: rgb(216, 185, 242);
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   width: ${(props) => `${props.point}%`};
   animation: ${(props) => ScaleWidth(`${props.point}%`)} 2s linear;
   @media (max-width: 850px) {
@@ -117,7 +117,7 @@ const Item = styled(motion.li)`
   @media (max-width: 850px) {
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
     height: 100%;
     position: relative;
   }
