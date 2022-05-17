@@ -45,10 +45,10 @@ export default function Biography() {
         />
       </Photo>
       <Paragraph variants={childrenVariants}>
-        I'm a Front-End Developer from Kyiv, Ukraine. I have serious passion for
-        UI effects, animations and creating intuitive, dynamic user experiences.
+        {`I'm a Front-End Developer from Kyiv, Ukraine. I have serious passion for
+        UI effects, animations and creating intuitive, dynamic user experiences.`}
         <Link href='/'>
-          <a> Let's make something special.</a>
+          <a> {`Let's make something special.`}</a>
         </Link>
       </Paragraph>
     </Container>

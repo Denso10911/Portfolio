@@ -59,10 +59,11 @@ export default function Home({ navbarOpen }) {
         <motion.div variants={childrenVariants}>
           <Title>
             <motion.div variants={spanVariants}>
-              Hi, I'm <TitleFocus>Denys</TitleFocus>
+              <span>{`Hi, I'm`} </span>
+              <TitleFocus>Denys</TitleFocus>
             </motion.div>
             <motion.div variants={spanVariants}>
-              I'm a front-end developer{" "}
+              <span>{`I'm a front-end developer`}</span>{" "}
             </motion.div>
           </Title>
         </motion.div>

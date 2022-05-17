@@ -110,9 +110,9 @@ export default function Projects({ navbarOpen }) {
                     objectFit='contain'
                   />
                 </div>
-                {selectedProj.imageVariants.map((i) => {
+                {selectedProj.imageVariants.map((i, index) => {
                   return (
-                    <div className='imageVariants'>
+                    <div className='imageVariants' key={index}>
                       <Image
                         src={i}
                         alt='Picture of the project'
