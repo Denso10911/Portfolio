@@ -73,6 +73,9 @@ const Photo = styled(motion.div)`
   position: relative;
   box-sizing: border-box;
   margin-bottom: 25px;
+  span {
+    border-radius: 20px;
+  }
 `;
 
 const Paragraph = styled(motion.p)`

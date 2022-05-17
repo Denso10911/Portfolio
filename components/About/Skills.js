@@ -67,7 +67,7 @@ const Scale = styled(motion.div)`
   animation: ${(props) => ScaleWidth(`${props.point}%`)} 2s linear;
   @media (max-width: 850px) {
     position: absolute;
-    bottom: 0;
+    bottom: 40px;
     height: ${(props) => `${props.point}%`};
     width: 100px;
     background-color: rgb(216, 185, 242);
@@ -104,6 +104,7 @@ const Title = styled.div`
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     width: 30px;
+    height: 100px;
   }
 `;
 

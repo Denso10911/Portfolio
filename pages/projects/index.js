@@ -97,6 +97,7 @@ export default function Projects({ navbarOpen }) {
             >
               <motion.div className='about' variants={childrenVariants}>
                 {selectedProj ? selectedProj.description : "😋"}
+                <br />
                 <Link href={`/projects/${selectedProj.name}`}>
                   <a> Learn more</a>
                 </Link>

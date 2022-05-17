@@ -112,16 +112,18 @@ const Btn = styled.div`
   text-align: center;
   font-size: 20px;
   line-height: 40px;
-  color: rgb(60, 1, 107);
   transition: all 0.3s ease;
   cursor: pointer;
+  a {
+    color: rgb(60, 1, 107);
+  }
   @media (max-width: 600px) {
     width: 100%;
   }
   :hover {
+    background-color: rgb(60, 1, 107);
     a {
       color: white;
     }
-    background-color: rgb(60, 1, 107);
   }
 `;
